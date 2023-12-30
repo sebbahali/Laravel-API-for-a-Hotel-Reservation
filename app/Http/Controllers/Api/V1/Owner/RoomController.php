@@ -31,7 +31,7 @@ class RoomController extends Controller
     {
         $rooms = Room::with('hotel')->where('is_booked',1)->get();
 
-        return RoomResource::collection($rooms);
+        return RoomResource::collection($rooms); //nice
     }
 
     /**
@@ -40,12 +40,12 @@ class RoomController extends Controller
     public function store(RoomRequest $request) //owner admin
     {
       
-        $data = $this->logicservice->RoomData($request);
+        $data = $this->logicservice->RoomData($request); //logicService*
 
 
         $rooms = Room::create($data);
        
-         return new RoomResource($rooms); 
+         return new RoomResource($rooms); //nice
     }
 
     /**
@@ -87,4 +87,3 @@ class RoomController extends Controller
 
     }
 }
-

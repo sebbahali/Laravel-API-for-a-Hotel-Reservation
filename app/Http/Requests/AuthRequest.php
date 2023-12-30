@@ -25,7 +25,11 @@ class AuthRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
-            'role_id'=>'required',
+            'role_id'=>'required', //'role_id' => 'required,exists:roles'
+            //you should validate if the id exists in db
+            //https://laravel.com/docs/10.x/validation#basic-usage-of-exists-rule
+            //all the rules: https://laravel.com/docs/10.x/validation#available-validation-rules
+            //you can make your custom rules as well
         ];
     }
 }
