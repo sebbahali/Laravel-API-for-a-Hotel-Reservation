@@ -11,10 +11,8 @@ class PublicController extends Controller
 {
    public function __invoke(Request $request)
     {
-    $hotels = Hotel::with(['rooms' => function($q) {
-         $q->where('is_booked', 1)
-         ->WhereNotNull('images');
-    }])
+    $hotels = Hotel::with('rooms')
+       
         ->when($request->address, function ($query) use ($request) {
 
             $query->where('address', $request->address);
