@@ -15,33 +15,40 @@ class RoomPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        return $user->role->name == "Admin" || $user->role->name == 'Owner';
+        return $this->getResponse($user->role->name == "Admin" || $user->role->name == 'Owner');
 
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user,Room $Room): bool
+    public function update(User $user,Room $Room): Response
     {
-        return ($user->role->name == 'Admin' || $user->role->name == 'Owner') &&  $user->id === $Room->hotel->user_id ;
+        return $this->getResponse(($user->role->name == 'Admin' || $user->role->name == 'Owner') &&  $user->id === $Room->hotel->user_id );
+
 
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user,Room $Room): bool
+    public function delete(User $user,Room $Room): Response
     {
         
-       return ($user->role->name == 'Admin' || $user->role->name == 'Owner') &&  $user->id === $Room->hotel->user_id ;
+       return $this->getResponse(($user->role->name == 'Admin' || $user->role->name == 'Owner') &&  $user->id === $Room->hotel->user_id );
 
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
+   private function getResponse(bool $hasPermission) :Response
+   {
+    
+    return $hasPermission
+    ? Response::allow()
+    : Response::deny('You do not have permission');
+
+   }
+   
  
 }
