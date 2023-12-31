@@ -41,7 +41,7 @@ return response()->json(['error'=>'email or password is not correct'],422);
 
 $device = substr($request->userAgent() ?? '', 0, 255);
 
-return response()->json(['access_token' =>$user->createtoken($device,['Driver:update'])->plainTextToken]);
+return response()->json(['access_token' =>$user->createtoken($device)->plainTextToken]);
 
 }
 
