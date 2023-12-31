@@ -16,6 +16,7 @@ class Room extends Model
     'children',
     'is_booked',
     'hotel_id',
+    'price'
   ];
 
  public function hotel() :BelongsTo
