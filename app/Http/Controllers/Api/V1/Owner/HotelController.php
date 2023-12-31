@@ -28,14 +28,9 @@ class HotelController extends Controller
      */
     public function index() //public 
     {
-        $hotels = Hotel::with(['rooms' => function ($q) {
-
-            $q->where('is_booked', 1);
-
-        }])->get();
+     $hotels = Hotel::with('rooms')->get();
         
-   
-        return HotelResource::collection($hotels);
+     return HotelResource::collection($hotels);
     }
 
     /**
