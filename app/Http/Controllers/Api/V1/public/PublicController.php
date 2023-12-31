@@ -17,13 +17,20 @@ class PublicController extends Controller
 
             $query->where('address', $request->address);
 
-    })->when ($request->adults && $request->children ,function($query) use ($request){
+    })->when ($request->adults && $request->children , function($query) use ($request){
 
-        $query->withwherehas('rooms',function($query) use ($request) {
-        $query->where('adults','>=',$request->adults)
-        ->where('children','>=',$request->children);
+        $query->wherehas('rooms', function($query) use ($request) {
+        $query->where('adults', '>=' , $request->adults)
+        ->where('children', '>=' ,$request->children);
+        }); 
+           
+    })->when ($request->from_price && $request->to_price , function($query) use ($request){
+           
+        $query->wherehas('rooms', function($query) use ($request) {
+        $query->where('price', '>=' , $request->from_price)
+        ->where('price', '<=' , $request->to_price);
+    
         });
-    })
     ->get(); 
         
         return HotelResource::collection($hotels);
