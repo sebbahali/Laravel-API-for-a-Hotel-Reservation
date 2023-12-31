@@ -29,6 +29,8 @@ class RoomRequest extends FormRequest
             'hotel_id'=> 'required|exists:hotels,id',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required|numeric',
+
         ];
     }
 }
