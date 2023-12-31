@@ -21,7 +21,7 @@ class Hotel extends Model
  
     public function rooms() :HasMany
     {
-    return $this->HasMany(Room::class);
+    return $this->HasMany(Room::class)->where('is_booked', 1);
 
     }
 
