@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedbiginteger('children');
             $table->boolean('is_booked')->default(false);
             $table->foreignId('hotel_id')->constrained();
+             $table->double('price');
             $table->timestamps();
         });
     }
