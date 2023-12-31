@@ -29,8 +29,8 @@ class RoomController extends Controller
     }
     public function index() //public
     {
-        $rooms = Room::with('hotel')->where('is_booked',1)->get();
-
+       $rooms = Room::with('hotel')->get();
+        
         return RoomResource::collection($rooms);
     }
 
@@ -53,8 +53,8 @@ class RoomController extends Controller
      */
     public function show(Room $Room) //public
     {
-       $Room->load('hotel')->where('is_booked',1)->get();
-       
+       $Room->load('hotel')->get();
+        
        return new RoomResource($Room);
     }
 
