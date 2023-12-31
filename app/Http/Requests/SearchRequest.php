@@ -23,13 +23,15 @@ class SearchRequest extends FormRequest
     {
         return [
            
-            'adults'=> 'required|numeric',
-            'children'=> 'required|numeric',
-            'address'=> 'required|string',
-            'from_price'=> 'required|numeric',
-            'to_price'=> 'required|numeric',
-            'sortOrder'=>'required|in:asc,desc',
-            'sortBy' => 'required|in:price'
+            'adults'=> 'numeric',
+            'children'=> 'numeric',
+            'address'=> 'string',
+            'from_price'=> 'numeric',
+            'to_price'=> 'numeric',
+            'sortBy' => 'in:price|required_with:sortOrder',
+            'sortOrder'=>'in:asc,desc|required_with:sortBy',
+           
+           
            
         ];
     }
