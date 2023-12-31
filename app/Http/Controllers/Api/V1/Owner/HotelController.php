@@ -54,9 +54,7 @@ class HotelController extends Controller
     public function show(Hotel $hotel) //public
     {
      
-        $hotel->load(['rooms'=>function ($q){
-            $q->where('is_booked',false);
-          }]);
+        $hotel->load('rooms');
         
         return  New HotelResource($hotel);
     }
