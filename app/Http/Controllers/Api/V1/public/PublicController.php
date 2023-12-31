@@ -19,6 +19,12 @@ class PublicController extends Controller
 
             $query->where('address', $request->address);
 
+    })->when ($request->adults && $request->children ,function($query) use ($request){
+
+        $query->withwherehas('rooms',function($query) use ($request) {
+        $query->where('adults','>=',$request->adults)
+        ->where('children','>=',$request->children);
+        });
     })
     ->get(); 
         
