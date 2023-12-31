@@ -25,12 +25,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('rooms',RoomController::class);
     Route::apiResource('hotels',HotelController::class);
-    
+    Route::post('logout/{user}',[AuthController::class ,'logout']);
 });
 
 Route::Post('register',[AuthController::class ,'register']);
 Route::Post('login',[AuthController::class ,'login']);
-Route::post('logout/{user}',[AuthController::class ,'logout'])->middleware('auth:sanctum');
 
 
 Route::get('search',PublicController::class);
