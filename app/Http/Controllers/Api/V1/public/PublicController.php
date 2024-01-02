@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Api\V1\public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
-use Illuminate\Http\Request;
+use App\Http\Requests\SearchRequest;
 
 class PublicController extends Controller
 {
-   public function __invoke(Request $request)
+   public function __invoke(SearchRequest $request)
     {
 
         $hotels = Hotel::query()
