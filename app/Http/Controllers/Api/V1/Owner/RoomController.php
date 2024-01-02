@@ -5,23 +5,24 @@ namespace App\Http\Controllers\Api\V1\Owner;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RoomRequest;
 use App\Http\Resources\RoomResource;
+use App\Http\Resources\StoreRoomResource;
 use App\Models\Room; 
 
-use App\Services\LogicService;
+use App\Services\RoomService;
 
 
 class RoomController extends Controller
 {
-    protected $logicservice;
+    protected $roomservice;
 
 
     /**
      * Display a listing of the resource.
      */
-    public function __construct(LogicService $logicservice)
+    public function __construct(RoomService $roomservice)
     {
-        $this->logicservice = $logicservice;
-        
+        $this->roomservice = $roomservice;
+
         $this->authorizeResource(Room::class ,'room',[
             'except' => [ 'index', 'show' ],
         ]);
@@ -29,8 +30,8 @@ class RoomController extends Controller
     }
     public function index() //public
     {
-       $rooms = Room::with('hotel')->get();
-        
+        $rooms = Room::with('hotel')->get();
+
         return RoomResource::collection($rooms);
     }
 
@@ -40,12 +41,9 @@ class RoomController extends Controller
     public function store(RoomRequest $request) //owner admin
     {
       
-        $data = $this->logicservice->RoomData($request);
+        $rooms = $this->roomservice->RoomDataStore($request);
 
-
-        $rooms = Room::create($data);
-       
-         return new RoomResource($rooms); 
+        return new StoreRoomResource($rooms); 
     }
 
     /**
@@ -54,7 +52,7 @@ class RoomController extends Controller
     public function show(Room $Room) //public
     {
        $Room->load('hotel')->get();
-        
+       
        return new RoomResource($Room);
     }
 
@@ -65,11 +63,11 @@ class RoomController extends Controller
     {
        
 
-        $data = $this->logicservice->RoomData($request,$Room);
+        $data = $this->roomservice->RoomDataUpdate($request,$Room);
 
         $Room->update($data);
 
-        return new RoomResource($Room); 
+      return new RoomResource($Room); 
     
     }
 
@@ -79,9 +77,7 @@ class RoomController extends Controller
     public function destroy(Room $Room) //owner admin
     {
 
-        $this->logicservice->DeleteStorage($Room->files);
-
-        $Room->delete();
+        $this->roomservice->DeleteStorageRoom($Room);
 
         return response()->json(['message'=>'room deleted']);
 
