@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RoomRequest;
+use App\Http\Requests\StoreRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
 use App\Http\Resources\RoomResource;
 use App\Http\Resources\StoreRoomResource;
 use App\Models\Room; 
@@ -38,7 +39,7 @@ class RoomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoomRequest $request) //owner admin
+    public function store(StoreRoomRequest $request) //owner admin
     {
       
         $rooms = $this->roomservice->RoomDataStore($request);
@@ -59,15 +60,13 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoomRequest $request , Room $Room) //owner admin
+    public function update(UpdateRoomRequest $request , Room $Room) //owner admin
     {
        
 
-        $data = $this->roomservice->RoomDataUpdate($request,$Room);
+        $Room = $this->roomservice->RoomDataUpdate($request,$Room);
 
-        $Room->update($data);
-
-      return new RoomResource($Room); 
+        return new RoomResource($Room); 
     
     }
 
