@@ -6,19 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\HotelRequest;
 use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
-use App\Services\LogicService;
+use App\Services\HotelService;
 
 
 
 
 class HotelController extends Controller
 {
-    protected $logicservice;
+    protected $hotelservice;
+    
 
-
-    public function __construct(LogicService $logicservice)
+    public function __construct(HotelService $hotelservice)
     {
-        $this->logicservice = $logicservice;
+        $this->hotelservice = $hotelservice;
+        
         $this->authorizeResource(Hotel::class ,'hotel', [
             'except' => [ 'index', 'show' ],
         ]);
@@ -28,9 +29,9 @@ class HotelController extends Controller
      */
     public function index() //public 
     {
-     $hotels = Hotel::with('rooms')->get();
-        
-     return HotelResource::collection($hotels);
+        $hotels = Hotel::with('rooms')->get();
+    
+        return HotelResource::collection($hotels);
     }
 
     /**
@@ -39,10 +40,7 @@ class HotelController extends Controller
     public function store(HotelRequest $request) //owner admin 
     {
       
-     $data = $this->logicservice->HotelData($request);
-
-
-        $hotel = Hotel::create($data);
+        $hotel = $this->hotelservice->HotelDataStore($request);
         
         return New HotelResource($hotel);
     
@@ -64,12 +62,12 @@ class HotelController extends Controller
      */
     public function update(HotelRequest $request, Hotel $hotel) //owner admin
     {
-
-        $data = $this->logicservice->HotelData($request,$hotel);
     
-        $hotel->update($data);
+
+        $hotel = $this->hotelservice->HotelDataUpdate($request,$hotel);
 
         return New HotelResource($hotel);
+
     } 
 
     /**
@@ -78,9 +76,7 @@ class HotelController extends Controller
     public function destroy(Hotel $hotel) //owner admin
     {
 
-      $this->logicservice->DeleteStorage($hotel->image);
-        
-        $hotel->delete();
+      $this->hotelservice->DeleteStorageHotel($hotel);
 
         return response()->json(['message'=>'hotel deleted']);
 
