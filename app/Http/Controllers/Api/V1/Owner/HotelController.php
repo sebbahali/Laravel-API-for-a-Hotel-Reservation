@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\V1\Owner;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\HotelRequest;
+
+use App\Http\Requests\StoreHotelRequest;
+use App\Http\Requests\UpdateHotelRequest;
 use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
 use App\Services\HotelService;
@@ -37,7 +39,7 @@ class HotelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(HotelRequest $request) //owner admin 
+    public function store(StoreHotelRequest $request) //owner admin 
     {
       
         $hotel = $this->hotelservice->HotelDataStore($request);
@@ -60,9 +62,8 @@ class HotelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(HotelRequest $request, Hotel $hotel) //owner admin
+    public function update(UpdateHotelRequest $request, Hotel $hotel) //owner admin
     {
-    
 
         $hotel = $this->hotelservice->HotelDataUpdate($request,$hotel);
 
@@ -78,7 +79,7 @@ class HotelController extends Controller
 
       $this->hotelservice->DeleteStorageHotel($hotel);
 
-        return response()->json(['message'=>'hotel deleted']);
+      return response()->json(['message'=>'hotel deleted']);
 
     }
 }
