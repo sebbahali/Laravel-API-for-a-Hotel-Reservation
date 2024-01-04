@@ -20,7 +20,7 @@ class RoomResource extends JsonResource
                 'adults' => $this->adults,
             'children' => $this->children,
 
-            'images' => $this->files->map( fn($files) => Storage::disk('public')->url($files)),
+            'images' => $this->images ? $this->files->map( fn($files) => Storage::disk('public')->url($files)) : null ,
 
             'hotel' => $this->whenloaded('hotel'),
                   
