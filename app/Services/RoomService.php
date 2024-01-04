@@ -111,7 +111,7 @@ use Exception;
  
             (Storage::exists($oldImage)) ? Storage::delete($oldImage) :  \Log::error("Error deleting file: $room->files"));
 
-            $room->delete();
+      
 
      }
     }
