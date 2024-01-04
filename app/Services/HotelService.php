@@ -1,58 +1,78 @@
 <?php
 namespace App\Services;
 
-
 use App\Models\Hotel;
 use Illuminate\Support\Facades\Storage;
 
-
-
-   class HotelService
-   
+class HotelService  
 {
-     public function HotelDataStore($request)
+
+  public function getAll()
+  {
+
+   return Hotel::with('rooms')->get();
+
+  }
+    public function Store($request)
      {
 
-        $data = $request->validated();
+      try{
 
-        $requestfile = $request->file('image');
+         $path = $request->file('image')->store('hotels', 'public');
 
-        if ($requestfile->isValid()) {
+         $request['image'] = $path;
 
-         $path = $requestfile->store('hotels', 'public');
+      
+         $hotel = Hotel::create($request);
 
-         $data['image'] = $path;
+          return $hotel;
+           
+      } catch(\Exception $e)
+      {
+        return response()->json([
+          'message'=>$e
+       ]);
 
-        } 
-           $hotel = Hotel::create($data);
-
-           return $hotel;
+      }
+        
     }
+    public function getByid($hotel)
+     {
 
-    public function HotelDataUpdate($request , $hotel)
+      return $hotel->load('rooms');
+   }
 
+   
+    public function Update($request , $hotel)
     {
 
-        $data = $request->validated();
+      try {
 
-        $requestfile = $request->file('image');
+         $path = $request->file('image')->store('hotels', 'public');
 
-        if ($requestfile->isValid()) {
+          $this->Delete($hotel->image);  
+          
+          $request['image'] = $path;  
+           
+          $hotel->update($request);
+          
+          return $hotel;
 
-         $path = $requestfile->store('hotels', 'public');
+      }catch(\Exception $e)
+      {
 
-         $data['image'] = $path;
+        return response()->json([
+          'message'=>$e
+       ]);
 
-          $this->DeleteStorageHotel($hotel->image);     
-        }
-
-      $hotel->update($data);
-
-      return $hotel;
+        
+      }
       
+
    }
+
  
-     public function DeleteStorageHotel($hotel)
+     public function Delete($hotel)
      {
         
        (Storage::exists($hotel->image)) ? Storage::delete($hotel->image) :  
