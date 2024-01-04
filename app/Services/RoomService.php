@@ -10,6 +10,12 @@ use Exception;
    class RoomService
    
 {
+   public function getAll(){
+
+      return Room::with('hotel')->get();
+       
+    
+       }
    
      public function RoomDataStore( $request )
 
@@ -49,7 +55,12 @@ use Exception;
                     
            
     }
+    public function getByid($Room){
   
+  
+      return $Room->load('hotel')->get();
+   }
+   
     public function RoomDataUpdate( $request ,$Room )
 
     {
@@ -74,7 +85,7 @@ use Exception;
              
            $data['images'] = json_encode($files);
         
-             $this->DeleteStorage($Room->files);
+             $this->Delete($Room->files);
     
        }
      }
@@ -92,21 +103,9 @@ use Exception;
            return $Room;
    }
 
-   public function getAll(){
 
-    return Room::with('hotel')->get();
-     
-  
-     }
-       public function getByid($Room){
-  
-  
-        return $Room->load('hotel')->get();
-     }
-     
-     
  
-     public function DeleteStorage($room)
+     public function Delete($room)
      {
          $room->files->each(fn ($oldImage) =>
  
