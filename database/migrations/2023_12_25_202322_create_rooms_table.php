@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('images')->nullable();
             $table->unsignedbiginteger('adults');
             $table->unsignedbiginteger('children');
-            $table->boolean('is_booked')->default(false);
+            $table->integer('is_booked')->default(0);
             $table->foreignId('hotel_id')->constrained();
              $table->double('price');
             $table->timestamps();
