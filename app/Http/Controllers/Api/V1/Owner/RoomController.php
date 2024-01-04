@@ -31,7 +31,7 @@ class RoomController extends Controller
     }
     public function index() //public
     {
-        $rooms = Room::with('hotel')->get();
+        $rooms = $this->roomservice->getAll();
 
         return RoomResource::collection($rooms);
     }
@@ -52,7 +52,8 @@ class RoomController extends Controller
      */
     public function show(Room $Room) //public
     {
-       $Room->load('hotel')->get();
+        $hotel = $this->roomservice->getByid($Room);
+
        
        return new RoomResource($Room);
     }
@@ -76,7 +77,7 @@ class RoomController extends Controller
     public function destroy(Room $Room) //owner admin
     {
 
-        $this->roomservice->DeleteStorageRoom($Room);
+        $this->roomservice->DeleteStorage($Room);
 
         return response()->json(['message'=>'room deleted']);
 
