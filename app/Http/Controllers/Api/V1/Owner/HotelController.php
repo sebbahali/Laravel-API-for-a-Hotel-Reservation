@@ -31,9 +31,10 @@ class HotelController extends Controller
      */
     public function index() //public 
     {
-        $hotels = Hotel::with('rooms')->get();
+        $hotels = $this->hotelservice->getAll();
     
         return HotelResource::collection($hotels);
+    
     }
 
     /**
@@ -42,7 +43,7 @@ class HotelController extends Controller
     public function store(StoreHotelRequest $request) //owner admin 
     {
       
-        $hotel = $this->hotelservice->HotelDataStore($request);
+        $hotel = $this->hotelservice->Store($request);
         
         return New HotelResource($hotel);
     
@@ -53,10 +54,11 @@ class HotelController extends Controller
      */
     public function show(Hotel $hotel) //public
     {
-     
-        $hotel->load('rooms');
         
-        return  New HotelResource($hotel);
+       
+        $hotel = $this->hotelservice->getByid($hotel);
+
+      return  New HotelResource($hotel);
     }
 
     /**
@@ -65,7 +67,7 @@ class HotelController extends Controller
     public function update(UpdateHotelRequest $request, Hotel $hotel) //owner admin
     {
 
-        $hotel = $this->hotelservice->HotelDataUpdate($request,$hotel);
+        $hotel = $this->hotelservice->Update($request,$hotel);
 
         return New HotelResource($hotel);
 
@@ -77,7 +79,7 @@ class HotelController extends Controller
     public function destroy(Hotel $hotel) //owner admin
     {
 
-      $this->hotelservice->DeleteStorageHotel($hotel);
+      $this->hotelservice->DeleteStorage($hotel);
 
       return response()->json(['message'=>'hotel deleted']);
 
