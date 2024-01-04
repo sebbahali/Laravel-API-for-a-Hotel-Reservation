@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\Hotel;
+use App\Utils\ImageUpload;
 use Illuminate\Support\Facades\Storage;
 
 class HotelService  
@@ -15,17 +16,22 @@ class HotelService
   }
     public function Store($request)
      {
-
+      $data = $request->validated();
+      
       try{
 
-         $path = $request->file('image')->store('hotels', 'public');
+        if ($request->hasfile('image')) {
 
-         $request['image'] = $path;
+          $path=ImageUpload::uploadSingleImage($request);
+          
+          $data['image'] = $path;
 
+        }
       
-         $hotel = Hotel::create($request);
+         $hotel = Hotel::create($data);
 
           return $hotel;
+         
            
       } catch(\Exception $e)
       {
@@ -42,22 +48,25 @@ class HotelService
       return $hotel->load('rooms');
    }
 
-   
+
     public function Update($request , $hotel)
     {
+      $data = $request->validated();
 
       try {
+        if ($request->hasfile('image')) {
 
-         $path = $request->file('image')->store('hotels', 'public');
-
-          $this->Delete($hotel->image);  
+          $path=ImageUpload::uploadSingleImage($request);
           
-          $request['image'] = $path;  
-           
-          $hotel->update($request);
+          $data['image'] = $path;
+
+        }
+      
+                     
+          $hotel->update($data);
           
           return $hotel;
-
+          
       }catch(\Exception $e)
       {
 
@@ -71,15 +80,11 @@ class HotelService
 
    }
 
- 
      public function Delete($hotel)
-     {
-        
-       (Storage::exists($hotel->image)) ? Storage::delete($hotel->image) :  
-         \Log::error("Error deleting file: $hotel->image");
-
-        
-       
+     {        
+      (Storage::exists($hotel->image)) ? Storage::delete($hotel->image) :  \Log::error("Error deleting file: $hotel->image)"); 
+    
+      $hotel->delete();
      }
     }
 
