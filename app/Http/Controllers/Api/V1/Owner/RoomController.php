@@ -77,7 +77,7 @@ class RoomController extends Controller
     public function destroy(Room $Room) //owner admin
     {
 
-        $this->roomservice->DeleteStorage($Room);
+        $this->roomservice->Delete($Room);
 
         return response()->json(['message'=>'room deleted']);
 
