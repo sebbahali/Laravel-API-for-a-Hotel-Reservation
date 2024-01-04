@@ -79,7 +79,7 @@ class HotelController extends Controller
     public function destroy(Hotel $hotel) //owner admin
     {
 
-      $this->hotelservice->DeleteStorage($hotel);
+      $this->hotelservice->Delete($hotel);
 
       return response()->json(['message'=>'hotel deleted']);
 
