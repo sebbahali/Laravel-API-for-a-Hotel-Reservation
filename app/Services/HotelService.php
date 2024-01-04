@@ -78,7 +78,7 @@ class HotelService
        (Storage::exists($hotel->image)) ? Storage::delete($hotel->image) :  
          \Log::error("Error deleting file: $hotel->image");
 
-         $hotel->delete();
+        
        
      }
     }
