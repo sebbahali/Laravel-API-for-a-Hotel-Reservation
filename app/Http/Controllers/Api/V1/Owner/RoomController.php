@@ -42,7 +42,7 @@ class RoomController extends Controller
     public function store(StoreRoomRequest $request) //owner admin
     {
       
-        $rooms = $this->roomservice->RoomDataStore($request);
+        $rooms = $this->roomservice->Store($request);
 
         return new StoreRoomResource($rooms); 
     }
@@ -65,9 +65,9 @@ class RoomController extends Controller
     {
        
 
-        $Room = $this->roomservice->RoomDataUpdate($request,$Room);
+        $Room = $this->roomservice->Update($request,$Room);
 
-        return new RoomResource($Room); 
+        return new  StoreRoomResource($Room); 
     
     }
 
@@ -78,8 +78,6 @@ class RoomController extends Controller
     {
 
         $this->roomservice->Delete($Room);
-
-        $Room->delete();
 
         return response()->json(['message'=>'room deleted']);
 
