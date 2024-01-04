@@ -80,10 +80,9 @@ class HotelController extends Controller
     {
 
       $this->hotelservice->Delete($hotel);
-        
-        $hotel->delete();
 
       return response()->json(['message'=>'hotel deleted']);
+      
 
     }
 }
