@@ -79,6 +79,8 @@ class RoomController extends Controller
 
         $this->roomservice->Delete($Room);
 
+        $Room->delete();
+
         return response()->json(['message'=>'room deleted']);
 
     }
