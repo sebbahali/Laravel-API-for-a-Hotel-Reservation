@@ -74,7 +74,7 @@ use Exception;
              
            $data['images'] = json_encode($files);
         
-             $this->DeleteStorageRoom($Room->files);
+             $this->DeleteStorage($Room->files);
     
        }
      }
@@ -91,8 +91,22 @@ use Exception;
 
            return $Room;
    }
+
+   public function getAll(){
+
+    return Room::with('hotel')->get();
+     
+  
+     }
+       public function getByid($Room){
+  
+  
+        return $Room->load('hotel')->get();
+     }
+     
+     
  
-     public function DeleteStorageRoom($room)
+     public function DeleteStorage($room)
      {
          $room->files->each(fn ($oldImage) =>
  
