@@ -17,16 +17,11 @@ class RoomResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-                'adults' => $this->adults,
+            'adults' => $this->adults,
             'children' => $this->children,
 
             'images' => $this->images ? $this->files->map( fn($files) => Storage::disk('public')->url($files)) : null ,
 
-            'hotel' => $this->whenloaded('hotel'),
-                  
-                 }) ,
-
-          
             'hotel' => $this->whenloaded('hotel'),
         ];
 
