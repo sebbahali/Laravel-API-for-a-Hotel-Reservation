@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->timestamps();
         });
+          Role::create(['name' => 'User']);
+        Role::create(['name' => 'Admin']);
+        Role::create(['name' => 'Owner']);
     }
 
     /**
