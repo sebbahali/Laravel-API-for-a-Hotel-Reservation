@@ -46,7 +46,7 @@ class RoomTest extends TestCase
 
     }
 
-    public function testUserCantUseRoomsPostEndpoint(){
+    public function testUserCantUseRoomsEndpoint(){
 
         $hotel = Hotel::factory()->create(['user_id' => $this->user]);
 
@@ -69,9 +69,8 @@ class RoomTest extends TestCase
        }
 
     
-       public function testOwnerCanUseRoomsPostEndpoint(){
+       public function testOwnerCanUseRoomsEndpoint(){
 
-       
         $hotel = Hotel::factory()->create(['user_id' => $this->owner]);
 
         $room = Room::factory()->create(['hotel_id' => $hotel->id ,'images'=>null])->toarray();
