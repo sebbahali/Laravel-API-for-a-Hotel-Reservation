@@ -87,7 +87,7 @@ class RoomTest extends TestCase
 
         $response = $this->actingAs($this->user)->deleteJson('/api/v1/hotels/'.$updatedroom['id']);
 
-        $response->assertStatus(201);
+        $response->assertStatus(200);
 
        }
        
