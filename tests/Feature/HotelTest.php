@@ -1,6 +1,7 @@
 <?php
 
 namespace Tests\Feature;
+use App\Models\Role;
 
 use App\Models\Hotel;
 use App\Models\Room;
