@@ -2,10 +2,9 @@
 namespace App\Services;
 
 use App\Models\Room;
-use Illuminate\Support\Str;
+use App\Utils\ImageUpload;
 use Illuminate\Support\Facades\Storage;
 use Exception;
-
 
    class RoomService
    
@@ -14,11 +13,9 @@ use Exception;
 
       return Room::with('hotel')->get();
        
-    
-       }
+      }
    
-     public function RoomDataStore( $request )
-
+     public function  Store($request)
      {
     
         $data = $request->validated();
@@ -27,22 +24,12 @@ use Exception;
 
          if ($request->hasFile('images')) {
   
-            $image = $request->file('images');
+            $files = ImageUpload::uploadMultipleImages($request);
 
-            foreach($image as $file) {
-
-                $name = str::uuid() . '.' . $file->getClientOriginalExtension();           
-                
-                $file->storeAs('rooms',$name) ;
-
-                $files[] = 'rooms/'.$name;
-             
-              }  
-              
             $data['images'] = json_encode($files);
-            
-        }
-      }
+            }
+      
+         }
            catch (\Exception $e)
            { 
 
@@ -51,17 +38,17 @@ use Exception;
             ]);
 
            }
+           
            return Room::create($data);
                     
            
     }
     public function getByid($Room){
   
-  
       return $Room->load('hotel')->get();
    }
    
-    public function RoomDataUpdate( $request ,$Room )
+    public function Update($request ,$Room )
 
     {
    
@@ -71,23 +58,12 @@ use Exception;
 
         if ($request->hasFile('images')) {
  
-           $image = $request->file('images');
-
-           foreach($image as $file) {
-
-               $name = str::uuid() . '.' . $file->getClientOriginalExtension();           
-               
-               $file->storeAs('rooms',$name) ;
-
-               $files[] = 'rooms/'.$name;
-            
-             }  
+         $files = ImageUpload::uploadMultipleImages($request);
              
            $data['images'] = json_encode($files);
         
-             $this->Delete($Room->files);
-    
-       }
+         }
+
      }
           catch (\Exception $e)
           { 
@@ -97,22 +73,20 @@ use Exception;
            ]);
 
           }
-
           $Room->update($data);
 
-           return $Room;
+          return $Room;
+
    }
 
 
- 
      public function Delete($room)
      {
          $room->files->each(fn ($oldImage) =>
  
             (Storage::exists($oldImage)) ? Storage::delete($oldImage) :  \Log::error("Error deleting file: $room->files"));
 
-      
-
+            $room->delete();
      }
     }
 
