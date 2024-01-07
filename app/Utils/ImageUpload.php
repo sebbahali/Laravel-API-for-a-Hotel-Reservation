@@ -6,10 +6,11 @@ use Illuminate\Support\Str;
 class ImageUpload
 {
 
-    public static function uploadSingleImage($request)
+      public static function uploadSingleImage($request)
     {
+        $name = str::uuid() . '.' . $request->file('image')->getClientOriginalExtension();       
 
-        $path = $request->file('image')->store('hotels', 'public');
+        $path = $request->file('image')->storeAs('hotels', $name);
 
         return $path;
       
