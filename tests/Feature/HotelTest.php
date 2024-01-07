@@ -65,21 +65,28 @@ public function testUserCantHotelsPostEndpoint(){
 
    public function testOwnerCanUseHotelsEndpoint(){
 
-    $file = UploadedFile::fake()->image('image.jpg');
 
-    $hotel = Hotel::factory()->create(['image'=>$file,'user_id'=>$this->owner->id])->toarray();
+    $file ='image.jpg';
+
+    $hotel = Hotel::factory()->create(['image'=> UploadedFile::fake()->image($file),'user_id'=>$this->owner->id])->toarray();
 
     $response = $this->actingAs($this->owner)->postJson('/api/v1/hotels', $hotel);
 
     $response->assertStatus(201);
 
-    $updatehotel = Hotel::factory()->create(['image'=>$file,'user_id'=>$this->owner->id])->toarray();
+    $updatehotel = [
+        'name' => 'anytest',
+        'discreption' => 'test',
+        'image' => UploadedFile::fake()->image($file),
+        'address' => 'testvile',
+        'user_id' => $this->owner->id,
+    ];
 
     $response = $this->actingAs($this->owner)->putJson('/api/v1/hotels/'.$hotel['id'], $updatehotel);
 
     $response->assertStatus(200);
 
-    $response = $this->actingAs($this->owner)->deleteJson('/api/v1/hotels/'.$updatehotel['id']);
+    $response = $this->actingAs($this->owner)->deleteJson('/api/v1/hotels/'.$hotel['id']);
 
     $response->assertStatus(200);
 
