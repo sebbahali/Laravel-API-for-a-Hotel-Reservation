@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Room;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -71,6 +70,7 @@ class RoomTest extends TestCase
     
        public function testOwnerCanUseRoomsEndpoint(){
 
+
         $hotel = Hotel::factory()->create(['user_id' => $this->owner]);
 
         $room = Room::factory()->create(['hotel_id' => $hotel->id ,'images'=>null])->toarray();
@@ -79,13 +79,17 @@ class RoomTest extends TestCase
 
         $response->assertStatus(201);
 
-        $updatedroom = Room::factory()->create(['hotel_id' => $hotel->id ,'images'=>null])->toarray();
-           
+        $updatedroom =[
+            'adults'=> '3',
+            'children'=> '4',
+            'hotel_id'=> $hotel->id,
+             'price' => '800',
+        ];
         $response = $this->actingAs($this->owner)->putJson('/api/v1/rooms/'.$room['id'], $updatedroom);
 
         $response->assertStatus(200);
 
-        $response = $this->actingAs($this->user)->deleteJson('/api/v1/hotels/'.$updatedroom['id']);
+        $response = $this->actingAs($this->owner)->deleteJson('/api/v1/rooms/'.$room['id']);
 
         $response->assertStatus(200);
 
