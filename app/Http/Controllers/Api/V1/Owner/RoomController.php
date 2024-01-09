@@ -23,9 +23,10 @@ class RoomController extends Controller
     public function __construct(RoomService $roomservice)
     {
         $this->roomservice = $roomservice;
+        $this->middleware('role.check:Admin,Owner')->only(['store','update','destroy']);
 
         $this->authorizeResource(Room::class ,'room',[
-            'except' => [ 'index', 'show' ],
+            'except' => [ 'index', 'show' ,'store'],
         ]);
 
     }
