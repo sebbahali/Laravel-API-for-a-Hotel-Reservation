@@ -9,20 +9,14 @@ use Illuminate\Auth\Access\Response;
 class HotelPolicy
 {
    
-    public function create(User $user): Response
-    {
-      
-        return $this->getResponse($user->role->name == "Admin" || $user->role->name == 'Owner');
-   
-
-    }
+  
 
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user , Hotel $hotel): Response
     {
-        return $this->getResponse(($user->role->name == 'Admin' || $user->role->name == 'Owner') && $user->id === $hotel->user_id);
+        return   $this->getResponse($user->id === $hotel->user_id);
 
     }
 
@@ -31,7 +25,7 @@ class HotelPolicy
      */
     public function delete(User $user, Hotel $hotel) : Response
     {
-        return $this->getResponse(($user->role->name == 'Admin' || $user->role->name == 'Owner') &&  $user->id === $hotel->user_id );
+        return   $this->getResponse($user->id === $hotel->user_id);
 
     }
   
