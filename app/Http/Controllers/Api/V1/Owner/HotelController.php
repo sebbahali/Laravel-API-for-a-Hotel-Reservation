@@ -11,8 +11,6 @@ use App\Models\Hotel;
 use App\Services\HotelService;
 
 
-
-
 class HotelController extends Controller
 {
     protected $hotelservice;
@@ -21,9 +19,9 @@ class HotelController extends Controller
     public function __construct(HotelService $hotelservice)
     {
         $this->hotelservice = $hotelservice;
-        
+        $this->middleware('role.check:Admin,Owner')->only(['store','update','destroy']);
         $this->authorizeResource(Hotel::class ,'hotel', [
-            'except' => [ 'index', 'show' ],
+            'except' => [ 'index', 'show' ,'store'],
         ]);
     }
     /**
@@ -43,6 +41,7 @@ class HotelController extends Controller
     public function store(StoreHotelRequest $request) //owner admin 
     {
       
+        
         $hotel = $this->hotelservice->Store($request);
         
         return New HotelResource($hotel);
@@ -54,11 +53,10 @@ class HotelController extends Controller
      */
     public function show(Hotel $hotel) //public
     {
-        
-       
-        $hotel = $this->hotelservice->getByid($hotel);
+         
+    $hotel = $this->hotelservice->getByid($hotel);
 
-      return  New HotelResource($hotel);
+    return  New HotelResource($hotel);
     }
 
     /**
