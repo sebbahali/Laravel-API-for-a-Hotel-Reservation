@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('is_booked')->default(0);
             $table->foreignId('hotel_id')->constrained();
              $table->double('price');
+             $table->index('is_booked');
             $table->timestamps();
         });
     }
