@@ -15,18 +15,14 @@ class RoomPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): Response
-    {
-        return $this->getResponse($user->role->name == "Admin" || $user->role->name == 'Owner');
-
-    }
+ 
 
     /**
      * Determine whether the user can update the model.
      */
     public function update(User $user,Room $Room): Response
     {
-        return $this->getResponse(($user->role->name == 'Admin' || $user->role->name == 'Owner') &&  $user->id === $Room->hotel->user_id );
+        return $this->getResponse( $user->id === $Room->hotel->user_id );
 
 
     }
@@ -37,7 +33,7 @@ class RoomPolicy
     public function delete(User $user,Room $Room): Response
     {
         
-       return $this->getResponse(($user->role->name == 'Admin' || $user->role->name == 'Owner') &&  $user->id === $Room->hotel->user_id );
+        return $this->getResponse( $user->id === $Room->hotel->user_id );
 
     }
 
