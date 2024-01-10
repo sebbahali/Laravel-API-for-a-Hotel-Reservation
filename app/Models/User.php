@@ -54,4 +54,8 @@ class User extends Authenticatable
      {
        return $this->hasmany(hotel::class);
      }
+    public function hasRoles(array $roles) :bool
+     {
+        return in_array($this->role->name, $roles);
+     }
 }
