@@ -14,22 +14,15 @@ class RoleChecking
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next,...$roles): Response
+public function handle(Request $request, Closure $next,...$roles): Response
     {
 
-  $nameroles=[
+      if (!$request->user()->hasRoles($roles)) {
 
-    'Admin'=>2 ,
-    'Owner'=>3,
-  ];
+        abort(403, 'You do not have permission role');
 
-  foreach ($roles as $role) {
-      if ($request->user()->role_id === $nameroles[$role]) {
-
-        return $next($request);
       }
+      return $next($request);
 
-    }
-    abort(403, 'You do not have permission role');
     }
 }
