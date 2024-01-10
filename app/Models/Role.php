@@ -18,8 +18,5 @@ class Role extends Model
     {
         return  $this->hasmany(User::class);
     }
-    public function hasRoles(array $roles) :bool
-     {
-        return in_array($this->role->name, $roles);
-     }
+ 
 }
