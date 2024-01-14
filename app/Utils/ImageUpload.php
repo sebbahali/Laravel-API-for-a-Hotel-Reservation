@@ -5,9 +5,16 @@ use Illuminate\Support\Str;
 
 class ImageUpload
 {
-
+  /**
+     * Upload a single image.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return string
+     */
       public static function uploadSingleImage($request)
     {
+    // Generate a unique filename using UUID and get the original file extension
+
         $name = str::uuid() . '.' . $request->file('image')->getClientOriginalExtension();       
 
         $path = $request->file('image')->storeAs('hotels', $name);
@@ -16,7 +23,12 @@ class ImageUpload
       
     }
 
-
+   /**
+     * Upload multiple images.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
     public static function uploadMultipleImages($request)
     {
 
@@ -28,7 +40,7 @@ class ImageUpload
             
             $file->storeAs('rooms',$name) ;
 
-             $files[] = 'rooms/'.$name;
+             $files[] = 'rooms/'.$name;  // Store the path of each stored image in the array
          
           }  
     
