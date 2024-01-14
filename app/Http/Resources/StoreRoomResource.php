@@ -19,7 +19,7 @@ class StoreRoomResource extends JsonResource
         return [
             'adults' => $this->adults,
             'children' => $this->children,
-
+ // Conditionally include 'images' if the request has files uploaded
           'images' =>$this->when($request->hasfile('images'),function () {
 
                 return $this->files->map(fn($files) => Storage::disk('public')->url($files));
