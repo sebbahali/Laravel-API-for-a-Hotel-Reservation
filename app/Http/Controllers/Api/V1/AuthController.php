@@ -14,7 +14,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => hash::make($request->password),
+            'password' => hash::make($request->password),// Hash the password before storing
             'role_id'=>$request->role_id,
         ]);
 
@@ -38,7 +38,7 @@ if(! $user || ! Hash::check($request->password,$user->password)){
 return response()->json(['error'=>'email or password is not correct'],422);
 
 }
-
+  // Generate an access token for the user and return it in the response
 $device = substr($request->userAgent() ?? '', 0, 255);
 
 return response()->json(['access_token' =>$user->createtoken($device)->plainTextToken]);
