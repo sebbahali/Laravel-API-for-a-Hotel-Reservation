@@ -7,13 +7,19 @@ use Illuminate\Support\Facades\Storage;
 
 class HotelService  
 {
-
+ /**
+     * Get all hotels with their rooms.
+     *
+     */
   public function getAll()
   {
 
    return Hotel::with('rooms')->get();
 
   }
+   /**
+     * Store a new hotel.
+     */
     public function Store($request)
      {
       $data = $request->validated();
@@ -40,7 +46,12 @@ class HotelService
        ]);
 
       }
-        
+         /**
+     * Get a specific hotel by ID with its rooms.
+     *
+     * @param \App\Models\Hotel $hotel
+     * @return \App\Models\Hotel
+     */  
     }
     public function getByid($hotel)
      {
