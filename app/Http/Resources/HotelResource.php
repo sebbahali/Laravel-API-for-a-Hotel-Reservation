@@ -18,9 +18,9 @@ class HotelResource extends JsonResource
         return [
             'name' => $this->name,
             'discreption' => $this->discreption,
-            'image' => Storage::disk('public')->url($this->image),
+            'image' => Storage::disk('public')->url($this->image),//generate a public URL
             'address' => $this->address,
-            'rooms' => $this->whenloaded('rooms'),
+            'rooms' => $this->whenloaded('rooms'),//only if it has been loaded
         ];
     }
 }
