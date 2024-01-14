@@ -9,12 +9,20 @@ use Exception;
    class RoomService
    
 {
+   /**
+     * Get all rooms with their associated hotels.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
    public function getAll(){
 
       return Room::with('hotel')->get();
        
       }
    
+    /**
+     * Store a new room.
+     */
      public function  Store($request)
      {
     
@@ -43,6 +51,12 @@ use Exception;
                     
            
     }
+    /**
+     * Get a specific room by ID with its associated hotel.
+     *
+     * @param \App\Models\Room $room
+     * @return \App\Models\Room
+     */
     public function getByid($Room){
   
       return $Room->load('hotel')->get();
