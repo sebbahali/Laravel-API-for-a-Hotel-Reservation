@@ -22,7 +22,7 @@ class RoomResource extends JsonResource
 
             'images' => $this->images ? $this->files->map( fn($files) => Storage::disk('public')->url($files)) : null ,
 
-            'hotel' => $this->whenloaded('hotel'),
+            'hotel' => $this->whenloaded('hotel'),//if it's loaded
         ];
 
     }
