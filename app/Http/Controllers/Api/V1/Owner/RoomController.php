@@ -22,15 +22,15 @@ class RoomController extends Controller
      */
     public function __construct(RoomService $roomservice)
     {
-        $this->roomservice = $roomservice;
-        $this->middleware('role.check:Admin,Owner')->only(['store','update','destroy']);
+        $this->roomservice = $roomservice;   // Injecting 
+        $this->middleware('role.check:Admin,Owner')->only(['store','update','destroy']);    // Applying middleware for role-based access
 
         $this->authorizeResource(Room::class ,'room',[
             'except' => [ 'index', 'show' ,'store'],
         ]);
 
     }
-    public function index() //public
+    public function index()  // Get all hotels
     {
         $rooms = $this->roomservice->getAll();
 
