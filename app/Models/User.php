@@ -56,6 +56,6 @@ class User extends Authenticatable
      }
     public function hasRoles(array $roles) :bool
      {
-        return in_array($this->role->name, $roles);
+        return in_array($this->role->name, $roles); // Check if the user's role name is in the provided array of roles
      }
 }
