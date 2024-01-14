@@ -16,7 +16,7 @@ class RoleChecking
      */
 public function handle(Request $request, Closure $next,...$roles): Response
     {
-
+/ Check if the authenticated user has the specified roles
       if (!$request->user()->hasRoles($roles)) {
 
         abort(403, 'You do not have permission role');
