@@ -18,16 +18,17 @@ class HotelController extends Controller
 
     public function __construct(HotelService $hotelservice)
     {
-        $this->hotelservice = $hotelservice;
-        $this->middleware('role.check:Admin,Owner')->only(['store','update','destroy']);
+        $this->hotelservice = $hotelservice;  // Injecting
+        
+        $this->middleware('role.check:Admin,Owner')->only(['store','update','destroy']);  // Applying middleware for role-based access
         $this->authorizeResource(Hotel::class ,'hotel', [
             'except' => [ 'index', 'show' ,'store'],
-        ]);
+        ]);   
     }
     /**
      * Display a listing of the resource.
      */
-    public function index() //public 
+    public function index() // Return a collection of Hotel resources
     {
         $hotels = $this->hotelservice->getAll();
     
@@ -79,7 +80,7 @@ class HotelController extends Controller
 
       $this->hotelservice->Delete($hotel);
 
-      return response()->json(['message'=>'hotel deleted']);
+      return response()->json(['message'=>'hotel deleted']);  // Return a JSON response
       
 
     }
