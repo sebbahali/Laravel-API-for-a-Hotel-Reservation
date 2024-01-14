@@ -17,7 +17,7 @@ class RoomTest extends TestCase
  
     public function testNotAuthCannotAccessRoomsGetEndpoint(): void
     {
-        $response = $this->getJson('/api/v1/rooms');
+        $response = $this->getJson('/api/v1/rooms'); // Attempt to access the rooms endpoint without authentication
 
         $response->assertStatus(401);
     }
@@ -29,10 +29,10 @@ class RoomTest extends TestCase
 
         $room = Room::factory()->create(['hotel_id' => $hotel->id]);
 
-        $response = $this->actingAs($this->user)->getJson('/api/v1/rooms');
+        $response = $this->actingAs($this->user)->getJson('/api/v1/rooms');   // Simulate an authenticated user and fetch rooms
 
         $response->assertStatus(200);
-
+// Assert that the JSON response contains expected data
         $response->assertJsonFragment([
             
             'adults' => $room->adults,
